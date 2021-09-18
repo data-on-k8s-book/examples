@@ -1,0 +1,965 @@
+{
+    "apiVersion": "apps/v1",
+    "kind": "StatefulSet",
+    "metadata": {
+        "annotations": {
+            "cassandra.datastax.com/resource-hash": "8c7ZF1XDkajBQpkIpvQDO1kiJDyIlT94qLfFJyACyiI="
+        },
+        "creationTimestamp": "2021-09-10T17:11:34Z",
+        "generation": 2,
+        "labels": {
+            "app.kubernetes.io/managed-by": "cass-operator",
+            "cassandra.datastax.com/cluster": "mixed-workload",
+            "cassandra.datastax.com/datacenter": "dc1",
+            "cassandra.datastax.com/rack": "rack1"
+        },
+        "managedFields": [
+            {
+                "apiVersion": "apps/v1",
+                "fieldsType": "FieldsV1",
+                "fieldsV1": {
+                    "f:metadata": {
+                        "f:annotations": {
+                            ".": {},
+                            "f:cassandra.datastax.com/resource-hash": {}
+                        },
+                        "f:labels": {
+                            ".": {},
+                            "f:app.kubernetes.io/managed-by": {},
+                            "f:cassandra.datastax.com/cluster": {},
+                            "f:cassandra.datastax.com/datacenter": {},
+                            "f:cassandra.datastax.com/rack": {}
+                        },
+                        "f:ownerReferences": {
+                            ".": {},
+                            "k:{\"uid\":\"4f687deb-9e9b-4a1d-b89f-544bfddcefec\"}": {
+                                ".": {},
+                                "f:apiVersion": {},
+                                "f:blockOwnerDeletion": {},
+                                "f:controller": {},
+                                "f:kind": {},
+                                "f:name": {},
+                                "f:uid": {}
+                            }
+                        }
+                    },
+                    "f:spec": {
+                        "f:podManagementPolicy": {},
+                        "f:replicas": {},
+                        "f:revisionHistoryLimit": {},
+                        "f:selector": {},
+                        "f:template": {
+                            "f:metadata": {
+                                "f:labels": {
+                                    ".": {},
+                                    "f:app.kubernetes.io/managed-by": {},
+                                    "f:cassandra.datastax.com/cluster": {},
+                                    "f:cassandra.datastax.com/datacenter": {},
+                                    "f:cassandra.datastax.com/node-state": {},
+                                    "f:cassandra.datastax.com/rack": {}
+                                }
+                            },
+                            "f:spec": {
+                                "f:affinity": {
+                                    ".": {},
+                                    "f:nodeAffinity": {
+                                        ".": {},
+                                        "f:requiredDuringSchedulingIgnoredDuringExecution": {
+                                            ".": {},
+                                            "f:nodeSelectorTerms": {}
+                                        }
+                                    },
+                                    "f:podAntiAffinity": {
+                                        ".": {},
+                                        "f:requiredDuringSchedulingIgnoredDuringExecution": {}
+                                    }
+                                },
+                                "f:containers": {
+                                    "k:{\"name\":\"cassandra\"}": {
+                                        ".": {},
+                                        "f:env": {
+                                            ".": {},
+                                            "k:{\"name\":\"DSE_AUTO_CONF_OFF\"}": {
+                                                ".": {},
+                                                "f:name": {},
+                                                "f:value": {}
+                                            },
+                                            "k:{\"name\":\"DSE_MGMT_EXPLICIT_START\"}": {
+                                                ".": {},
+                                                "f:name": {},
+                                                "f:value": {}
+                                            },
+                                            "k:{\"name\":\"DS_LICENSE\"}": {
+                                                ".": {},
+                                                "f:name": {},
+                                                "f:value": {}
+                                            },
+                                            "k:{\"name\":\"LOCAL_JMX\"}": {
+                                                ".": {},
+                                                "f:name": {},
+                                                "f:value": {}
+                                            },
+                                            "k:{\"name\":\"MGMT_API_EXPLICIT_START\"}": {
+                                                ".": {},
+                                                "f:name": {},
+                                                "f:value": {}
+                                            },
+                                            "k:{\"name\":\"USE_MGMT_API\"}": {
+                                                ".": {},
+                                                "f:name": {},
+                                                "f:value": {}
+                                            }
+                                        },
+                                        "f:image": {},
+                                        "f:imagePullPolicy": {},
+                                        "f:lifecycle": {
+                                            ".": {},
+                                            "f:preStop": {
+                                                ".": {},
+                                                "f:exec": {
+                                                    ".": {},
+                                                    "f:command": {}
+                                                }
+                                            }
+                                        },
+                                        "f:livenessProbe": {
+                                            ".": {},
+                                            "f:failureThreshold": {},
+                                            "f:httpGet": {
+                                                ".": {},
+                                                "f:path": {},
+                                                "f:port": {},
+                                                "f:scheme": {}
+                                            },
+                                            "f:initialDelaySeconds": {},
+                                            "f:periodSeconds": {},
+                                            "f:successThreshold": {},
+                                            "f:timeoutSeconds": {}
+                                        },
+                                        "f:name": {},
+                                        "f:ports": {
+                                            ".": {},
+                                            "k:{\"containerPort\":7000,\"protocol\":\"TCP\"}": {
+                                                ".": {},
+                                                "f:containerPort": {},
+                                                "f:name": {},
+                                                "f:protocol": {}
+                                            },
+                                            "k:{\"containerPort\":7001,\"protocol\":\"TCP\"}": {
+                                                ".": {},
+                                                "f:containerPort": {},
+                                                "f:name": {},
+                                                "f:protocol": {}
+                                            },
+                                            "k:{\"containerPort\":7199,\"protocol\":\"TCP\"}": {
+                                                ".": {},
+                                                "f:containerPort": {},
+                                                "f:name": {},
+                                                "f:protocol": {}
+                                            },
+                                            "k:{\"containerPort\":8080,\"protocol\":\"TCP\"}": {
+                                                ".": {},
+                                                "f:containerPort": {},
+                                                "f:name": {},
+                                                "f:protocol": {}
+                                            },
+                                            "k:{\"containerPort\":9042,\"protocol\":\"TCP\"}": {
+                                                ".": {},
+                                                "f:containerPort": {},
+                                                "f:name": {},
+                                                "f:protocol": {}
+                                            },
+                                            "k:{\"containerPort\":9103,\"protocol\":\"TCP\"}": {
+                                                ".": {},
+                                                "f:containerPort": {},
+                                                "f:name": {},
+                                                "f:protocol": {}
+                                            },
+                                            "k:{\"containerPort\":9142,\"protocol\":\"TCP\"}": {
+                                                ".": {},
+                                                "f:containerPort": {},
+                                                "f:name": {},
+                                                "f:protocol": {}
+                                            },
+                                            "k:{\"containerPort\":9160,\"protocol\":\"TCP\"}": {
+                                                ".": {},
+                                                "f:containerPort": {},
+                                                "f:name": {},
+                                                "f:protocol": {}
+                                            }
+                                        },
+                                        "f:readinessProbe": {
+                                            ".": {},
+                                            "f:failureThreshold": {},
+                                            "f:httpGet": {
+                                                ".": {},
+                                                "f:path": {},
+                                                "f:port": {},
+                                                "f:scheme": {}
+                                            },
+                                            "f:initialDelaySeconds": {},
+                                            "f:periodSeconds": {},
+                                            "f:successThreshold": {},
+                                            "f:timeoutSeconds": {}
+                                        },
+                                        "f:resources": {},
+                                        "f:terminationMessagePath": {},
+                                        "f:terminationMessagePolicy": {},
+                                        "f:volumeMounts": {
+                                            ".": {},
+                                            "k:{\"mountPath\":\"/config\"}": {
+                                                ".": {},
+                                                "f:mountPath": {},
+                                                "f:name": {}
+                                            },
+                                            "k:{\"mountPath\":\"/etc/encryption/\"}": {
+                                                ".": {},
+                                                "f:mountPath": {},
+                                                "f:name": {}
+                                            },
+                                            "k:{\"mountPath\":\"/var/lib/cassandra\"}": {
+                                                ".": {},
+                                                "f:mountPath": {},
+                                                "f:name": {}
+                                            },
+                                            "k:{\"mountPath\":\"/var/log/cassandra\"}": {
+                                                ".": {},
+                                                "f:mountPath": {},
+                                                "f:name": {}
+                                            }
+                                        }
+                                    },
+                                    "k:{\"name\":\"server-system-logger\"}": {
+                                        ".": {},
+                                        "f:image": {},
+                                        "f:imagePullPolicy": {},
+                                        "f:name": {},
+                                        "f:resources": {
+                                            ".": {},
+                                            "f:limits": {
+                                                ".": {},
+                                                "f:cpu": {},
+                                                "f:memory": {}
+                                            },
+                                            "f:requests": {
+                                                ".": {},
+                                                "f:cpu": {},
+                                                "f:memory": {}
+                                            }
+                                        },
+                                        "f:terminationMessagePath": {},
+                                        "f:terminationMessagePolicy": {},
+                                        "f:volumeMounts": {
+                                            ".": {},
+                                            "k:{\"mountPath\":\"/var/log/cassandra\"}": {
+                                                ".": {},
+                                                "f:mountPath": {},
+                                                "f:name": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "f:dnsPolicy": {},
+                                "f:initContainers": {
+                                    ".": {},
+                                    "k:{\"name\":\"base-config-init\"}": {
+                                        ".": {},
+                                        "f:args": {},
+                                        "f:command": {},
+                                        "f:image": {},
+                                        "f:imagePullPolicy": {},
+                                        "f:name": {},
+                                        "f:resources": {},
+                                        "f:terminationMessagePath": {},
+                                        "f:terminationMessagePolicy": {},
+                                        "f:volumeMounts": {
+                                            ".": {},
+                                            "k:{\"mountPath\":\"/cassandra-base-config/\"}": {
+                                                ".": {},
+                                                "f:mountPath": {},
+                                                "f:name": {}
+                                            }
+                                        }
+                                    },
+                                    "k:{\"name\":\"jmx-credentials\"}": {
+                                        ".": {},
+                                        "f:args": {},
+                                        "f:env": {
+                                            ".": {},
+                                            "k:{\"name\":\"REAPER_JMX_PASSWORD\"}": {
+                                                ".": {},
+                                                "f:name": {},
+                                                "f:valueFrom": {
+                                                    ".": {},
+                                                    "f:secretKeyRef": {
+                                                        ".": {},
+                                                        "f:key": {},
+                                                        "f:name": {}
+                                                    }
+                                                }
+                                            },
+                                            "k:{\"name\":\"REAPER_JMX_USERNAME\"}": {
+                                                ".": {},
+                                                "f:name": {},
+                                                "f:valueFrom": {
+                                                    ".": {},
+                                                    "f:secretKeyRef": {
+                                                        ".": {},
+                                                        "f:key": {},
+                                                        "f:name": {}
+                                                    }
+                                                }
+                                            },
+                                            "k:{\"name\":\"SUPERUSER_JMX_PASSWORD\"}": {
+                                                ".": {},
+                                                "f:name": {},
+                                                "f:valueFrom": {
+                                                    ".": {},
+                                                    "f:secretKeyRef": {
+                                                        ".": {},
+                                                        "f:key": {},
+                                                        "f:name": {}
+                                                    }
+                                                }
+                                            },
+                                            "k:{\"name\":\"SUPERUSER_JMX_USERNAME\"}": {
+                                                ".": {},
+                                                "f:name": {},
+                                                "f:valueFrom": {
+                                                    ".": {},
+                                                    "f:secretKeyRef": {
+                                                        ".": {},
+                                                        "f:key": {},
+                                                        "f:name": {}
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "f:image": {},
+                                        "f:imagePullPolicy": {},
+                                        "f:name": {},
+                                        "f:resources": {},
+                                        "f:terminationMessagePath": {},
+                                        "f:terminationMessagePolicy": {},
+                                        "f:volumeMounts": {
+                                            ".": {},
+                                            "k:{\"mountPath\":\"/config\"}": {
+                                                ".": {},
+                                                "f:mountPath": {},
+                                                "f:name": {}
+                                            }
+                                        }
+                                    },
+                                    "k:{\"name\":\"server-config-init\"}": {
+                                        ".": {},
+                                        "f:env": {
+                                            ".": {},
+                                            "k:{\"name\":\"CONFIG_FILE_DATA\"}": {
+                                                ".": {},
+                                                "f:name": {},
+                                                "f:value": {}
+                                            },
+                                            "k:{\"name\":\"DSE_VERSION\"}": {
+                                                ".": {},
+                                                "f:name": {},
+                                                "f:value": {}
+                                            },
+                                            "k:{\"name\":\"HOST_IP\"}": {
+                                                ".": {},
+                                                "f:name": {},
+                                                "f:valueFrom": {
+                                                    ".": {},
+                                                    "f:fieldRef": {
+                                                        ".": {},
+                                                        "f:apiVersion": {},
+                                                        "f:fieldPath": {}
+                                                    }
+                                                }
+                                            },
+                                            "k:{\"name\":\"POD_IP\"}": {
+                                                ".": {},
+                                                "f:name": {},
+                                                "f:valueFrom": {
+                                                    ".": {},
+                                                    "f:fieldRef": {
+                                                        ".": {},
+                                                        "f:apiVersion": {},
+                                                        "f:fieldPath": {}
+                                                    }
+                                                }
+                                            },
+                                            "k:{\"name\":\"PRODUCT_NAME\"}": {
+                                                ".": {},
+                                                "f:name": {},
+                                                "f:value": {}
+                                            },
+                                            "k:{\"name\":\"PRODUCT_VERSION\"}": {
+                                                ".": {},
+                                                "f:name": {},
+                                                "f:value": {}
+                                            },
+                                            "k:{\"name\":\"RACK_NAME\"}": {
+                                                ".": {},
+                                                "f:name": {},
+                                                "f:value": {}
+                                            },
+                                            "k:{\"name\":\"USE_HOST_IP_FOR_BROADCAST\"}": {
+                                                ".": {},
+                                                "f:name": {},
+                                                "f:value": {}
+                                            }
+                                        },
+                                        "f:image": {},
+                                        "f:imagePullPolicy": {},
+                                        "f:name": {},
+                                        "f:resources": {
+                                            ".": {},
+                                            "f:limits": {
+                                                ".": {},
+                                                "f:cpu": {},
+                                                "f:memory": {}
+                                            },
+                                            "f:requests": {
+                                                ".": {},
+                                                "f:cpu": {},
+                                                "f:memory": {}
+                                            }
+                                        },
+                                        "f:terminationMessagePath": {},
+                                        "f:terminationMessagePolicy": {},
+                                        "f:volumeMounts": {
+                                            ".": {},
+                                            "k:{\"mountPath\":\"/config\"}": {
+                                                ".": {},
+                                                "f:mountPath": {},
+                                                "f:name": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "f:restartPolicy": {},
+                                "f:schedulerName": {},
+                                "f:securityContext": {
+                                    ".": {},
+                                    "f:fsGroup": {},
+                                    "f:runAsGroup": {},
+                                    "f:runAsUser": {}
+                                },
+                                "f:serviceAccount": {},
+                                "f:serviceAccountName": {},
+                                "f:terminationGracePeriodSeconds": {},
+                                "f:volumes": {
+                                    ".": {},
+                                    "k:{\"name\":\"cassandra-config\"}": {
+                                        ".": {},
+                                        "f:emptyDir": {},
+                                        "f:name": {}
+                                    },
+                                    "k:{\"name\":\"encryption-cred-storage\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:secret": {
+                                            ".": {},
+                                            "f:defaultMode": {},
+                                            "f:secretName": {}
+                                        }
+                                    },
+                                    "k:{\"name\":\"server-config\"}": {
+                                        ".": {},
+                                        "f:emptyDir": {},
+                                        "f:name": {}
+                                    },
+                                    "k:{\"name\":\"server-logs\"}": {
+                                        ".": {},
+                                        "f:emptyDir": {},
+                                        "f:name": {}
+                                    }
+                                }
+                            }
+                        },
+                        "f:updateStrategy": {
+                            "f:rollingUpdate": {
+                                ".": {},
+                                "f:partition": {}
+                            },
+                            "f:type": {}
+                        },
+                        "f:volumeClaimTemplates": {}
+                    },
+                    "f:status": {
+                        "f:replicas": {}
+                    }
+                },
+                "manager": "operator",
+                "operation": "Update",
+                "time": "2021-09-10T17:15:35Z"
+            }
+        ],
+        "name": "mixed-workload-dc1-rack1-sts",
+        "namespace": "txndc",
+        "ownerReferences": [
+            {
+                "apiVersion": "cassandra.datastax.com/v1beta1",
+                "blockOwnerDeletion": true,
+                "controller": true,
+                "kind": "CassandraDatacenter",
+                "name": "dc1",
+                "uid": "4f687deb-9e9b-4a1d-b89f-544bfddcefec"
+            }
+        ],
+        "resourceVersion": "12314",
+        "uid": "f713aa78-5b37-4921-94ef-3dc8049f01e1"
+    },
+    "spec": {
+        "podManagementPolicy": "Parallel",
+        "replicas": 1,
+        "revisionHistoryLimit": 10,
+        "selector": {
+            "matchLabels": {
+                "cassandra.datastax.com/cluster": "mixed-workload",
+                "cassandra.datastax.com/datacenter": "dc1",
+                "cassandra.datastax.com/rack": "rack1"
+            }
+        },
+        "serviceName": "", #this is ok?
+        "template": {
+            "metadata": {
+                "creationTimestamp": null,
+                "labels": {
+                    "app.kubernetes.io/managed-by": "cass-operator",
+                    "cassandra.datastax.com/cluster": "mixed-workload",
+                    "cassandra.datastax.com/datacenter": "dc1",
+                    "cassandra.datastax.com/node-state": "Ready-to-Start",
+                    "cassandra.datastax.com/rack": "rack1"
+                }
+            },
+            "spec": {
+                "affinity": {
+                    "nodeAffinity": {
+                        "requiredDuringSchedulingIgnoredDuringExecution": {
+                            "nodeSelectorTerms": [
+                                {
+                                    "matchExpressions": [
+                                        {
+                                            "key": "failure-domain.beta.kubernetes.io/zone",
+                                            "operator": "In",
+                                            "values": [
+                                                "us-west4-a"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    "podAntiAffinity": {
+                        "requiredDuringSchedulingIgnoredDuringExecution": [
+                            {
+                                "labelSelector": {
+                                    "matchExpressions": [
+                                        {
+                                            "key": "cassandra.datastax.com/cluster",
+                                            "operator": "Exists"
+                                        },
+                                        {
+                                            "key": "cassandra.datastax.com/datacenter",
+                                            "operator": "Exists"
+                                        },
+                                        {
+                                            "key": "cassandra.datastax.com/rack",
+                                            "operator": "Exists"
+                                        }
+                                    ]
+                                },
+                                "topologyKey": "kubernetes.io/hostname"
+                            }
+                        ]
+                    }
+                },
+                "containers": [
+                    {
+                        "env": [
+                            {
+                                "name": "LOCAL_JMX",
+                                "value": "no"
+                            },
+                            {
+                                "name": "DS_LICENSE",
+                                "value": "accept"
+                            },
+                            {
+                                "name": "DSE_AUTO_CONF_OFF",
+                                "value": "all"
+                            },
+                            {
+                                "name": "USE_MGMT_API",
+                                "value": "true"
+                            },
+                            {
+                                "name": "MGMT_API_EXPLICIT_START",
+                                "value": "true"
+                            },
+                            {
+                                "name": "DSE_MGMT_EXPLICIT_START",
+                                "value": "true"
+                            }
+                        ],
+                        "image": "k8ssandra/cass-management-api:3.11.10-v0.1.25",
+                        "imagePullPolicy": "IfNotPresent",
+                        "lifecycle": {
+                            "preStop": {
+                                "exec": {
+                                    "command": [
+                                        "wget",
+                                        "--output-document",
+                                        "/dev/null",
+                                        "--no-check-certificate",
+                                        "--post-data=''",
+                                        "http://localhost:8080/api/v0/ops/node/drain"
+                                    ]
+                                }
+                            }
+                        },
+                        "livenessProbe": {
+                            "failureThreshold": 3,
+                            "httpGet": {
+                                "path": "/api/v0/probes/liveness",
+                                "port": 8080,
+                                "scheme": "HTTP"
+                            },
+                            "initialDelaySeconds": 15,
+                            "periodSeconds": 15,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 1
+                        },
+                        "name": "cassandra",
+                        "ports": [
+                            {
+                                "containerPort": 9042,
+                                "name": "native",
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 9142,
+                                "name": "tls-native",
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 7000,
+                                "name": "internode",
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 7001,
+                                "name": "tls-internode",
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 7199,
+                                "name": "jmx",
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 8080,
+                                "name": "mgmt-api-http",
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 9103,
+                                "name": "prometheus",
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 9160,
+                                "name": "thrift",
+                                "protocol": "TCP"
+                            }
+                        ],
+                        "readinessProbe": {
+                            "failureThreshold": 3,
+                            "httpGet": {
+                                "path": "/api/v0/probes/readiness",
+                                "port": 8080,
+                                "scheme": "HTTP"
+                            },
+                            "initialDelaySeconds": 20,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 1
+                        },
+                        "resources": {},
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/var/log/cassandra",
+                                "name": "server-logs"
+                            },
+                            {
+                                "mountPath": "/var/lib/cassandra",
+                                "name": "server-data"
+                            },
+                            {
+                                "mountPath": "/etc/encryption/",
+                                "name": "encryption-cred-storage"
+                            },
+                            {
+                                "mountPath": "/config",
+                                "name": "server-config"
+                            }
+                        ]
+                    },
+                    {
+                        "image": "k8ssandra/system-logger:9c4c3692",
+                        "imagePullPolicy": "IfNotPresent",
+                        "name": "server-system-logger",
+                        "resources": {
+                            "limits": {
+                                "cpu": "100m",
+                                "memory": "64M"
+                            },
+                            "requests": {
+                                "cpu": "100m",
+                                "memory": "64M"
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/var/log/cassandra",
+                                "name": "server-logs"
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "initContainers": [
+                    {
+                        "args": [
+                            "-c",
+                            "cp -r /etc/cassandra/* /cassandra-base-config/"
+                        ],
+                        "command": [
+                            "/bin/sh"
+                        ],
+                        "image": "k8ssandra/cass-management-api:3.11.10-v0.1.25",
+                        "imagePullPolicy": "IfNotPresent",
+                        "name": "base-config-init",
+                        "resources": {},
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/cassandra-base-config/",
+                                "name": "cassandra-config"
+                            }
+                        ]
+                    },
+                    {
+                        "env": [
+                            {
+                                "name": "POD_IP",
+                                "valueFrom": {
+                                    "fieldRef": {
+                                        "apiVersion": "v1",
+                                        "fieldPath": "status.podIP"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "HOST_IP",
+                                "valueFrom": {
+                                    "fieldRef": {
+                                        "apiVersion": "v1",
+                                        "fieldPath": "status.hostIP"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "USE_HOST_IP_FOR_BROADCAST",
+                                "value": "false"
+                            },
+                            {
+                                "name": "RACK_NAME",
+                                "value": "rack1"
+                            },
+                            {
+                                "name": "PRODUCT_VERSION",
+                                "value": "3.11.10"
+                            },
+                            {
+                                "name": "PRODUCT_NAME",
+                                "value": "cassandra"
+                            },
+                            {
+                                "name": "DSE_VERSION",
+                                "value": "3.11.10"
+                            },
+                            {
+                                "name": "CONFIG_FILE_DATA",
+                                "value": "{\"cassandra-yaml\":{\"authenticator\":\"PasswordAuthenticator\",\"authorizer\":\"CassandraAuthorizer\",\"credentials_update_interval_in_ms\":3600000,\"credentials_validity_in_ms\":3600000,\"num_tokens\":256,\"permissions_update_interval_in_ms\":3600000,\"permissions_validity_in_ms\":3600000,\"role_manager\":\"CassandraRoleManager\",\"roles_update_interval_in_ms\":3600000,\"roles_validity_in_ms\":3600000},\"cluster-info\":{\"name\":\"mixed-workload\",\"seeds\":\"mixed-workload-seed-service\"},\"datacenter-info\":{\"graph-enabled\":0,\"name\":\"dc1\",\"solr-enabled\":0,\"spark-enabled\":0},\"jvm-options\":{\"additional-jvm-opts\":[\"-Dcassandra.system_distributed_replication_dc_names=dc1\",\"-Dcassandra.system_distributed_replication_per_dc=3\"]}}"
+                            }
+                        ],
+                        "image": "docker.io/datastax/cass-config-builder:1.0.4",
+                        "imagePullPolicy": "IfNotPresent",
+                        "name": "server-config-init",
+                        "resources": {
+                            "limits": {
+                                "cpu": "1",
+                                "memory": "256M"
+                            },
+                            "requests": {
+                                "cpu": "1",
+                                "memory": "256M"
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/config",
+                                "name": "server-config"
+                            }
+                        ]
+                    },
+                    {
+                        "args": [
+                            "/bin/sh",
+                            "-c",
+                            "echo \"$REAPER_JMX_USERNAME $REAPER_JMX_PASSWORD\" \u003e /config/jmxremote.password \u0026\u0026 echo \"$SUPERUSER_JMX_USERNAME $SUPERUSER_JMX_PASSWORD\" \u003e\u003e /config/jmxremote.password"
+                        ],
+                        "env": [
+                            {
+                                "name": "REAPER_JMX_USERNAME",
+                                "valueFrom": {
+                                    "secretKeyRef": {
+                                        "key": "username",
+                                        "name": "mixed-workload-reaper-jmx"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "REAPER_JMX_PASSWORD",
+                                "valueFrom": {
+                                    "secretKeyRef": {
+                                        "key": "password",
+                                        "name": "mixed-workload-reaper-jmx"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "SUPERUSER_JMX_USERNAME",
+                                "valueFrom": {
+                                    "secretKeyRef": {
+                                        "key": "username",
+                                        "name": "cassandra-admin-secret"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "SUPERUSER_JMX_PASSWORD",
+                                "valueFrom": {
+                                    "secretKeyRef": {
+                                        "key": "password",
+                                        "name": "cassandra-admin-secret"
+                                    }
+                                }
+                            }
+                        ],
+                        "image": "busybox",
+                        "imagePullPolicy": "IfNotPresent",
+                        "name": "jmx-credentials",
+                        "resources": {},
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/config",
+                                "name": "server-config"
+                            }
+                        ]
+                    }
+                ],
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {
+                    "fsGroup": 999,
+                    "runAsGroup": 999,
+                    "runAsUser": 999
+                },
+                "serviceAccount": "default",
+                "serviceAccountName": "default",
+                "terminationGracePeriodSeconds": 120,
+                "volumes": [
+                    {
+                        "emptyDir": {},
+                        "name": "cassandra-config"
+                    },
+                    {
+                        "emptyDir": {},
+                        "name": "server-config"
+                    },
+                    {
+                        "emptyDir": {},
+                        "name": "server-logs"
+                    },
+                    {
+                        "name": "encryption-cred-storage",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "dc1-keystore"
+                        }
+                    }
+                ]
+            }
+        },
+        "updateStrategy": {
+            "rollingUpdate": {
+                "partition": 0
+            },
+            "type": "RollingUpdate"
+        },
+        "volumeClaimTemplates": [
+            {
+                "apiVersion": "v1",
+                "kind": "PersistentVolumeClaim",
+                "metadata": {
+                    "creationTimestamp": null,
+                    "labels": {
+                        "app.kubernetes.io/managed-by": "cass-operator",
+                        "cassandra.datastax.com/cluster": "mixed-workload",
+                        "cassandra.datastax.com/datacenter": "dc1",
+                        "cassandra.datastax.com/rack": "rack1"
+                    },
+                    "name": "server-data"
+                },
+                "spec": {
+                    "accessModes": [
+                        "ReadWriteOnce"
+                    ],
+                    "resources": {
+                        "requests": {
+                            "storage": "5Gi"
+                        }
+                    },
+                    "storageClassName": "standard-rwo",
+                    "volumeMode": "Filesystem"
+                },
+                "status": {
+                    "phase": "Pending"
+                }
+            }
+        ]
+    },
+    "status": {
+        "collisionCount": 0,
+        "currentReplicas": 1,
+        "currentRevision": "mixed-workload-dc1-rack1-sts-cdb9f46c",
+        "observedGeneration": 2,
+        "readyReplicas": 1,
+        "replicas": 1,
+        "updateRevision": "mixed-workload-dc1-rack1-sts-cdb9f46c",
+        "updatedReplicas": 1
+    }
+}
