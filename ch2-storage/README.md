@@ -1,6 +1,9 @@
-# Data on Kubernetes Book Examples
-Code examples for the O'Reilly book [Managing Cloud-Native Data on Kubernetes](https://learning.oreilly.com/library/view/managing-cloud-native/9781098111380/).
+# Working with Kubernetes PersistentVolumes, PersistentVolumeClaims, and StorageClasses
 
+This example code shows how to create a local PersistentVolume.
+This is a code example for the O'Reilly book [Managing Cloud-Native Data on Kubernetes](https://learning.oreilly.com/library/view/managing-cloud-native/9781098111380/)..
+
+For more information see the Kubernetes [PersistentVolume documentation](https://kubernetes.io/docs/concepts/storage/persistent-volumes/).
 
 ----
 
