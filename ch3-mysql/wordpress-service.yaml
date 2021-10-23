@@ -11,3 +11,4 @@ spec:
     app: wordpress
     tier: frontend
   type: LoadBalancer
+
