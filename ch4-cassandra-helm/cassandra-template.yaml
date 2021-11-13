@@ -1,0 +1,249 @@
+---
+# Source: cassandra/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cassandra
+  namespace: default
+  labels:
+    app.kubernetes.io/name: cassandra
+    helm.sh/chart: cassandra-9.0.0
+    app.kubernetes.io/instance: cassandra
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+automountServiceAccountToken: true
+---
+# Source: cassandra/templates/cassandra-secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cassandra
+  namespace: default
+  labels:
+    app.kubernetes.io/name: cassandra
+    helm.sh/chart: cassandra-9.0.0
+    app.kubernetes.io/instance: cassandra
+    app.kubernetes.io/managed-by: Helm
+type: Opaque
+data:
+  cassandra-password: "REdySTdLSGE2Ug=="
+---
+# Source: cassandra/templates/headless-svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: cassandra-headless
+  namespace: default
+  labels:
+    app.kubernetes.io/name: cassandra
+    helm.sh/chart: cassandra-9.0.0
+    app.kubernetes.io/instance: cassandra
+    app.kubernetes.io/managed-by: Helm
+spec:
+  clusterIP: None
+  publishNotReadyAddresses: true
+  ports:
+    - name: intra
+      port: 7000
+      targetPort: intra
+    - name: tls
+      port: 7001
+      targetPort: tls
+    - name: jmx
+      port: 7199
+      targetPort: jmx
+    - name: cql
+      port: 9042
+      targetPort: cql
+  selector:
+    app.kubernetes.io/name: cassandra
+    app.kubernetes.io/instance: cassandra
+---
+# Source: cassandra/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: cassandra
+  namespace: default
+  labels:
+    app.kubernetes.io/name: cassandra
+    helm.sh/chart: cassandra-9.0.0
+    app.kubernetes.io/instance: cassandra
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - name: cql
+      port: 9042
+      targetPort: cql
+      nodePort: null
+    - name: metrics
+      port: 8080
+      nodePort: null
+  selector:
+    app.kubernetes.io/name: cassandra
+    app.kubernetes.io/instance: cassandra
+---
+# Source: cassandra/templates/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: cassandra
+  namespace: default
+  labels:
+    app.kubernetes.io/name: cassandra
+    helm.sh/chart: cassandra-9.0.0
+    app.kubernetes.io/instance: cassandra
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: cassandra
+      app.kubernetes.io/instance: cassandra
+  serviceName: cassandra-headless
+  podManagementPolicy: OrderedReady
+  replicas: 3
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: cassandra
+        helm.sh/chart: cassandra-9.0.0
+        app.kubernetes.io/instance: cassandra
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      
+      serviceAccountName: cassandra
+      affinity:
+        podAffinity:
+          
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: cassandra
+                    app.kubernetes.io/instance: cassandra
+                namespaces:
+                  - "default"
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+          
+      securityContext:
+        fsGroup: 1001
+      containers:
+        - name: cassandra
+          command:
+            - bash
+            - -ec
+            - |
+              # Node 0 is the password seeder
+              if [[ $POD_NAME =~ (.*)-0$ ]]; then
+                  echo "Setting node as password seeder"
+                  export CASSANDRA_PASSWORD_SEEDER=yes
+              else
+                  # Only node 0 will execute the startup initdb scripts
+                  export CASSANDRA_IGNORE_INITDB_SCRIPTS=1
+              fi
+              /opt/bitnami/scripts/cassandra/entrypoint.sh /opt/bitnami/scripts/cassandra/run.sh
+          image: docker.io/bitnami/cassandra:4.0.1-debian-10-r28
+          imagePullPolicy: "IfNotPresent"
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001
+          env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+            - name: CASSANDRA_CLUSTER_NAME
+              value: cassandra
+            - name: CASSANDRA_SEEDS
+              value: "cassandra-0.cassandra-headless.default.svc.cluster.local"
+            - name: CASSANDRA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cassandra
+                  key: cassandra-password
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: CASSANDRA_USER
+              value: "cassandra"
+            - name: CASSANDRA_NUM_TOKENS
+              value: "256"
+            - name: CASSANDRA_DATACENTER
+              value: dc1
+            - name: CASSANDRA_ENDPOINT_SNITCH
+              value: SimpleSnitch
+            - name: CASSANDRA_KEYSTORE_LOCATION
+              value: "/opt/bitnami/cassandra/certs/keystore"
+            - name: CASSANDRA_TRUSTSTORE_LOCATION
+              value: "/opt/bitnami/cassandra/certs/truststore"
+            - name: CASSANDRA_RACK
+              value: rack1
+            - name: CASSANDRA_TRANSPORT_PORT_NUMBER
+              value: "7000"
+            - name: CASSANDRA_JMX_PORT_NUMBER
+              value: "7199"
+            - name: CASSANDRA_CQL_PORT_NUMBER
+              value: "9042"
+          envFrom:
+          livenessProbe:
+            exec:
+              command:
+                - /bin/bash
+                - -ec
+                - |
+                  nodetool status
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 5
+          readinessProbe:
+            exec:
+              command:
+                - /bin/bash
+                - -ec
+                - |
+                  nodetool status | grep -E "^UN\\s+${POD_IP}"
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 5
+          ports:
+            - name: intra
+              containerPort: 7000
+            - name: tls
+              containerPort: 7001
+            - name: jmx
+              containerPort: 7199
+            - name: cql
+              containerPort: 9042
+          resources: 
+            limits: {}
+            requests: {}
+          volumeMounts:
+            - name: data
+              mountPath: /bitnami/cassandra
+            
+      volumes:
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        labels:
+          app.kubernetes.io/name: cassandra
+          app.kubernetes.io/instance: cassandra
+      spec:
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: "8Gi"

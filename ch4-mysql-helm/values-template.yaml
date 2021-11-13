@@ -1,0 +1,538 @@
+---
+# Source: mysql/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mysql
+  namespace: default
+  labels:
+    app.kubernetes.io/name: mysql
+    helm.sh/chart: mysql-8.8.8
+    app.kubernetes.io/instance: mysql
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+secrets:
+  - name: mysql
+---
+# Source: mysql/templates/secrets.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql
+  namespace: default
+  labels:
+    app.kubernetes.io/name: mysql
+    helm.sh/chart: mysql-8.8.8
+    app.kubernetes.io/instance: mysql
+    app.kubernetes.io/managed-by: Helm
+type: Opaque
+data:
+  mysql-root-password: "VzhyNEhIcmdTTQ=="
+  mysql-password: "R2ZtNkFHNDhpOQ=="
+  mysql-replication-password: "bDBiTWVzVmVORA=="
+---
+# Source: mysql/templates/primary/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-primary
+  namespace: default
+  labels:
+    app.kubernetes.io/name: mysql
+    helm.sh/chart: mysql-8.8.8
+    app.kubernetes.io/instance: mysql
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: primary
+data:
+  my.cnf: |-
+    
+    [mysqld]
+    default_authentication_plugin=mysql_native_password
+    skip-name-resolve
+    explicit_defaults_for_timestamp
+    basedir=/opt/bitnami/mysql
+    plugin_dir=/opt/bitnami/mysql/lib/plugin
+    port=3306
+    socket=/opt/bitnami/mysql/tmp/mysql.sock
+    datadir=/bitnami/mysql/data
+    tmpdir=/opt/bitnami/mysql/tmp
+    max_allowed_packet=16M
+    bind-address=0.0.0.0
+    pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
+    log-error=/opt/bitnami/mysql/logs/mysqld.log
+    character-set-server=UTF8
+    collation-server=utf8_general_ci
+    
+    [client]
+    port=3306
+    socket=/opt/bitnami/mysql/tmp/mysql.sock
+    default-character-set=UTF8
+    plugin_dir=/opt/bitnami/mysql/lib/plugin
+    
+    [manager]
+    port=3306
+    socket=/opt/bitnami/mysql/tmp/mysql.sock
+    pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
+---
+# Source: mysql/templates/secondary/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-secondary
+  namespace: default
+  labels:
+    app.kubernetes.io/name: mysql
+    helm.sh/chart: mysql-8.8.8
+    app.kubernetes.io/instance: mysql
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: secondary
+data:
+  my.cnf: |-
+    
+    [mysqld]
+    default_authentication_plugin=mysql_native_password
+    skip-name-resolve
+    explicit_defaults_for_timestamp
+    basedir=/opt/bitnami/mysql
+    port=3306
+    socket=/opt/bitnami/mysql/tmp/mysql.sock
+    datadir=/bitnami/mysql/data
+    tmpdir=/opt/bitnami/mysql/tmp
+    max_allowed_packet=16M
+    bind-address=0.0.0.0
+    pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
+    log-error=/opt/bitnami/mysql/logs/mysqld.log
+    character-set-server=UTF8
+    collation-server=utf8_general_ci
+    
+    [client]
+    port=3306
+    socket=/opt/bitnami/mysql/tmp/mysql.sock
+    default-character-set=UTF8
+    
+    [manager]
+    port=3306
+    socket=/opt/bitnami/mysql/tmp/mysql.sock
+    pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
+---
+# Source: mysql/templates/primary/svc-headless.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-primary-headless
+  namespace: default
+  labels:
+    app.kubernetes.io/name: mysql
+    helm.sh/chart: mysql-8.8.8
+    app.kubernetes.io/instance: mysql
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: primary
+  annotations:
+spec:
+  type: ClusterIP
+  clusterIP: None
+  publishNotReadyAddresses: true
+  ports:
+    - name: mysql
+      port: 3306
+      targetPort: mysql
+  selector: 
+    app.kubernetes.io/name: mysql
+    app.kubernetes.io/instance: mysql
+    app.kubernetes.io/component: primary
+---
+# Source: mysql/templates/primary/svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-primary
+  namespace: default
+  labels:
+    app.kubernetes.io/name: mysql
+    helm.sh/chart: mysql-8.8.8
+    app.kubernetes.io/instance: mysql
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: primary
+  annotations:
+spec:
+  type: ClusterIP
+  ports:
+    - name: mysql
+      port: 3306
+      protocol: TCP
+      targetPort: mysql
+      nodePort: null
+  selector: 
+    app.kubernetes.io/name: mysql
+    app.kubernetes.io/instance: mysql
+    app.kubernetes.io/component: primary
+---
+# Source: mysql/templates/secondary/svc-headless.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-secondary-headless
+  namespace: default
+  labels:
+    app.kubernetes.io/name: mysql
+    helm.sh/chart: mysql-8.8.8
+    app.kubernetes.io/instance: mysql
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: secondary
+  annotations:
+spec:
+  type: ClusterIP
+  clusterIP: None
+  publishNotReadyAddresses: true
+  ports:
+    - name: mysql
+      port: 3306
+      targetPort: mysql
+  selector: 
+    app.kubernetes.io/name: mysql
+    app.kubernetes.io/instance: mysql
+    app.kubernetes.io/component: secondary
+---
+# Source: mysql/templates/secondary/svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-secondary
+  namespace: default
+  labels:
+    app.kubernetes.io/name: mysql
+    helm.sh/chart: mysql-8.8.8
+    app.kubernetes.io/instance: mysql
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: secondary
+  annotations:
+spec:
+  type: ClusterIP
+  ports:
+    - name: mysql
+      port: 3306
+      protocol: TCP
+      targetPort: mysql
+      nodePort: null
+  selector: 
+    app.kubernetes.io/name: mysql
+    app.kubernetes.io/instance: mysql
+    app.kubernetes.io/component: secondary
+---
+# Source: mysql/templates/primary/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-primary
+  namespace: default
+  labels:
+    app.kubernetes.io/name: mysql
+    helm.sh/chart: mysql-8.8.8
+    app.kubernetes.io/instance: mysql
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: primary
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      app.kubernetes.io/name: mysql
+      app.kubernetes.io/instance: mysql
+      app.kubernetes.io/component: primary
+  serviceName: mysql-primary
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        checksum/configuration: 75e3ee11057d3d5dccad89f37fb78adbed1564c1c78df83dab7e74d5e1c4305b
+      labels:
+        app.kubernetes.io/name: mysql
+        helm.sh/chart: mysql-8.8.8
+        app.kubernetes.io/instance: mysql
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/component: primary
+    spec:
+      
+      serviceAccountName: mysql
+      affinity:
+        podAffinity:
+          
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: mysql
+                    app.kubernetes.io/instance: mysql
+                    app.kubernetes.io/component: primary
+                namespaces:
+                  - "default"
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+          
+      securityContext:
+        fsGroup: 1001
+      containers:
+        - name: mysql
+          image: docker.io/bitnami/mysql:8.0.26-debian-10-r60
+          imagePullPolicy: "IfNotPresent"
+          securityContext:
+            runAsUser: 1001
+          env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql
+                  key: mysql-root-password
+            - name: MYSQL_DATABASE
+              value: "my_database"
+            - name: MYSQL_REPLICATION_MODE
+              value: "master"
+            - name: MYSQL_REPLICATION_USER
+              value: "replicator"
+            - name: MYSQL_REPLICATION_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql
+                  key: mysql-replication-password
+          ports:
+            - name: mysql
+              containerPort: 3306
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+            exec:
+              command:
+                - /bin/bash
+                - -ec
+                - |
+                  password_aux="${MYSQL_ROOT_PASSWORD:-}"
+                  if [[ -f "${MYSQL_ROOT_PASSWORD_FILE:-}" ]]; then
+                      password_aux=$(cat "$MYSQL_ROOT_PASSWORD_FILE")
+                  fi
+                  mysqladmin status -uroot -p"${password_aux}"
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+            exec:
+              command:
+                - /bin/bash
+                - -ec
+                - |
+                  password_aux="${MYSQL_ROOT_PASSWORD:-}"
+                  if [[ -f "${MYSQL_ROOT_PASSWORD_FILE:-}" ]]; then
+                      password_aux=$(cat "$MYSQL_ROOT_PASSWORD_FILE")
+                  fi
+                  mysqladmin status -uroot -p"${password_aux}"
+          startupProbe:
+            failureThreshold: 10
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+            exec:
+              command:
+                - /bin/bash
+                - -ec
+                - |
+                  password_aux="${MYSQL_ROOT_PASSWORD:-}"
+                  if [[ -f "${MYSQL_ROOT_PASSWORD_FILE:-}" ]]; then
+                      password_aux=$(cat "$MYSQL_ROOT_PASSWORD_FILE")
+                  fi
+                  mysqladmin status -uroot -p"${password_aux}"
+          resources: 
+            limits: {}
+            requests: {}
+          volumeMounts:
+            - name: data
+              mountPath: /bitnami/mysql
+            - name: config
+              mountPath: /opt/bitnami/mysql/conf/my.cnf
+              subPath: my.cnf
+      volumes:
+        - name: config
+          configMap:
+            name: mysql-primary
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        labels: 
+          app.kubernetes.io/name: mysql
+          app.kubernetes.io/instance: mysql
+          app.kubernetes.io/component: primary
+      spec:
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: "8Gi"
+---
+# Source: mysql/templates/secondary/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-secondary
+  namespace: default
+  labels:
+    app.kubernetes.io/name: mysql
+    helm.sh/chart: mysql-8.8.8
+    app.kubernetes.io/instance: mysql
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: secondary
+spec:
+  replicas: 2
+  selector:
+    matchLabels: 
+      app.kubernetes.io/name: mysql
+      app.kubernetes.io/instance: mysql
+      app.kubernetes.io/component: secondary
+  serviceName: mysql-secondary
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        checksum/configuration: 48d4bf2e51f34b72b6e3b03b604610e76eccaa9609ba3ab2cbb9d490249dc419
+      labels:
+        app.kubernetes.io/name: mysql
+        helm.sh/chart: mysql-8.8.8
+        app.kubernetes.io/instance: mysql
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/component: secondary
+    spec:
+      
+      serviceAccountName: mysql
+      affinity:
+        podAffinity:
+          
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: mysql
+                    app.kubernetes.io/instance: mysql
+                    app.kubernetes.io/component: secondary
+                namespaces:
+                  - "default"
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+          
+      securityContext:
+        fsGroup: 1001
+      containers:
+        - name: mysql
+          image: docker.io/bitnami/mysql:8.0.26-debian-10-r60
+          imagePullPolicy: "IfNotPresent"
+          securityContext:
+            runAsUser: 1001
+          env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+            - name: MYSQL_REPLICATION_MODE
+              value: "slave"
+            - name: MYSQL_MASTER_HOST
+              value: mysql-primary
+            - name: MYSQL_MASTER_PORT_NUMBER
+              value: "3306"
+            - name: MYSQL_MASTER_ROOT_USER
+              value: "root"
+            - name: MYSQL_REPLICATION_USER
+              value: "replicator"
+            - name: MYSQL_MASTER_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql
+                  key: mysql-root-password
+            - name: MYSQL_REPLICATION_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql
+                  key: mysql-replication-password
+          ports:
+            - name: mysql
+              containerPort: 3306
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+            exec:
+              command:
+                - /bin/bash
+                - -ec
+                - |
+                  password_aux="${MYSQL_MASTER_ROOT_PASSWORD:-}"
+                  if [[ -f "${MYSQL_MASTER_ROOT_PASSWORD_FILE:-}" ]]; then
+                      password_aux=$(cat "$MYSQL_MASTER_ROOT_PASSWORD_FILE")
+                  fi
+                  mysqladmin status -uroot -p"${password_aux}"
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+            exec:
+              command:
+                - /bin/bash
+                - -ec
+                - |
+                  password_aux="${MYSQL_MASTER_ROOT_PASSWORD:-}"
+                  if [[ -f "${MYSQL_MASTER_ROOT_PASSWORD_FILE:-}" ]]; then
+                      password_aux=$(cat "$MYSQL_MASTER_ROOT_PASSWORD_FILE")
+                  fi
+                  mysqladmin status -uroot -p"${password_aux}"
+          startupProbe:
+            failureThreshold: 15
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+            exec:
+              command:
+                - /bin/bash
+                - -ec
+                - |
+                  password_aux="${MYSQL_MASTER_ROOT_PASSWORD:-}"
+                  if [[ -f "${MYSQL_MASTER_ROOT_PASSWORD_FILE:-}" ]]; then
+                      password_aux=$(cat "$MYSQL_MASTER_ROOT_PASSWORD_FILE")
+                  fi
+                  mysqladmin status -uroot -p"${password_aux}"
+          resources: 
+            limits: {}
+            requests: {}
+          volumeMounts:
+            - name: data
+              mountPath: /bitnami/mysql
+            - name: config
+              mountPath: /opt/bitnami/mysql/conf/my.cnf
+              subPath: my.cnf
+      volumes:
+        - name: config
+          configMap:
+            name: mysql-secondary
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        labels: 
+          app.kubernetes.io/name: mysql
+          app.kubernetes.io/instance: mysql
+          app.kubernetes.io/component: secondary
+      spec:
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: "8Gi"
