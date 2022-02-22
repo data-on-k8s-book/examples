@@ -9,6 +9,6 @@ spec:
     volumeMounts:
     - name: web-data
       mountPath: /app/config
- volumes:
- - name: web-data
+  volumes:
+  - name: web-data
 
