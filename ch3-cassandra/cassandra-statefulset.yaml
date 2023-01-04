@@ -8,7 +8,7 @@ spec:
   serviceName: cassandra
   replicas: 3
   podManagementPolicy: OrderedReady
-  updateStrategy:
+  updateStrategy: 
     type: RollingUpdate
   selector:
     matchLabels:
