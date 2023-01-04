@@ -23,3 +23,5 @@ spec:
         stargate:
           size: 1
           heapSize: 256M
+        reaper:
+          deploymentMode: PER_DC

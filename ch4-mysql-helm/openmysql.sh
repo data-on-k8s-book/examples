@@ -4,7 +4,7 @@ kubectl run -it --v=0 --rm --restart=Never --overrides='
     "containers": [
       {
         "name": "mysql-client",
-        "image": "mysql:5.7",       
+        "image": "mysql:8.0",
         "tty": true,
         "stdin": true,
         "command": ["mysql"],
@@ -24,4 +24,4 @@ kubectl run -it --v=0 --rm --restart=Never --overrides='
     ]
   }
 }
-'  --image=mysql:5.7 mysql
+'  --image=mysql:8.0 mysql
